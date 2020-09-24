@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  web:
+    image: nginx
+    volumes:
+      - ./templates:/var/log/nginx
+    ports:
+      - '8080:80'
+  nginx-exporter:
+    image: quay.io/martinhelmich/prometheus-nginxlog-exporter
+    depends_on:
+      - web
+    ports:
+      - '4040:4040'
+    volumes:
+      - ./templates:/mnt/nginxlogs
+    command: /mnt/nginxlogs/access.log
