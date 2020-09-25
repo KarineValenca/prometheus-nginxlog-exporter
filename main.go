@@ -56,7 +56,7 @@ func NewNSMetrics(cfg *config.NamespaceConfig) *NSMetrics {
 	//m.registry.MustRegister(m.upstreamSeconds)
 	//m.registry.MustRegister(m.upstreamSecondsHist)
 	//m.registry.MustRegister(m.responseSeconds)
-	m.registry.MustRegister(m.responseSecondsHist)
+	m.registry.MustRegister(m.requestSecondsHist)
 	m.registry.MustRegister(m.parseErrorsTotal)
 	return m
 }
@@ -69,8 +69,8 @@ type Metrics struct {
 	//upstreamSeconds     *prometheus.SummaryVec
 	//upstreamSecondsHist *prometheus.HistogramVec
 	//responseSeconds     *prometheus.SummaryVec
-	responseSecondsHist *prometheus.HistogramVec
-	parseErrorsTotal    prometheus.Counter
+	requestSecondsHist *prometheus.HistogramVec
+	parseErrorsTotal   prometheus.Counter
 }
 
 func inLabels(label string, labels []string) bool {
@@ -108,7 +108,7 @@ func (m *Metrics) Init(cfg *config.NamespaceConfig) {
 	*/
 
 	m.bytesTotal = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Namespace:   cfg.NamespacePrefix,
+		//Namespace:   cfg.NamespacePrefix,
 		ConstLabels: cfg.NamespaceLabels,
 		Name:        "response_size_bytes",
 		Help:        "counts the size of each http response",
@@ -139,11 +139,11 @@ func (m *Metrics) Init(cfg *config.NamespaceConfig) {
 	}, labels)
 	*/
 
-	m.responseSecondsHist = prometheus.NewHistogramVec(prometheus.HistogramOpts{
-		Namespace:   cfg.NamespacePrefix,
+	m.requestSecondsHist = prometheus.NewHistogramVec(prometheus.HistogramOpts{
+		//Namespace:   cfg.NamespacePrefix,
 		ConstLabels: cfg.NamespaceLabels,
-		Name:        "http_response_time_seconds_hist",
-		Help:        "Time needed by NGINX to handle requests",
+		Name:        "request_seconds",
+		Help:        "records in a histogram the number of http requests and their duration in seconds",
 		Buckets:     cfg.HistogramBuckets,
 	}, labels)
 
@@ -378,7 +378,7 @@ func processSource(nsCfg config.NamespaceConfig, t tail.Follower, parser *gonx.P
 
 		if responseTime, ok := floatFromFields(fields, "request_time"); ok {
 			//metrics.responseSeconds.WithLabelValues(labelValues...).Observe(responseTime)
-			metrics.responseSecondsHist.WithLabelValues(labelValues...).Observe(responseTime)
+			metrics.requestSecondsHist.WithLabelValues(labelValues...).Observe(responseTime)
 		}
 	}
 }
