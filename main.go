@@ -51,11 +51,11 @@ func NewNSMetrics(cfg *config.NamespaceConfig) *NSMetrics {
 	}
 	m.Init(cfg)
 
-	m.registry.MustRegister(m.countTotal)
+	//m.registry.MustRegister(m.countTotal)
 	m.registry.MustRegister(m.bytesTotal)
-	m.registry.MustRegister(m.upstreamSeconds)
-	m.registry.MustRegister(m.upstreamSecondsHist)
-	m.registry.MustRegister(m.responseSeconds)
+	//m.registry.MustRegister(m.upstreamSeconds)
+	//m.registry.MustRegister(m.upstreamSecondsHist)
+	//m.registry.MustRegister(m.responseSeconds)
 	m.registry.MustRegister(m.responseSecondsHist)
 	m.registry.MustRegister(m.parseErrorsTotal)
 	return m
@@ -64,11 +64,11 @@ func NewNSMetrics(cfg *config.NamespaceConfig) *NSMetrics {
 // Metrics is a struct containing pointers to all metrics that should be
 // exposed to Prometheus
 type Metrics struct {
-	countTotal          *prometheus.CounterVec
-	bytesTotal          *prometheus.CounterVec
-	upstreamSeconds     *prometheus.SummaryVec
-	upstreamSecondsHist *prometheus.HistogramVec
-	responseSeconds     *prometheus.SummaryVec
+	//countTotal          *prometheus.CounterVec
+	bytesTotal *prometheus.CounterVec
+	//upstreamSeconds     *prometheus.SummaryVec
+	//upstreamSecondsHist *prometheus.HistogramVec
+	//responseSeconds     *prometheus.SummaryVec
 	responseSecondsHist *prometheus.HistogramVec
 	parseErrorsTotal    prometheus.Counter
 }
@@ -98,21 +98,23 @@ func (m *Metrics) Init(cfg *config.NamespaceConfig) {
 		}
 	}
 
-	m.countTotal = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Namespace:   cfg.NamespacePrefix,
-		ConstLabels: cfg.NamespaceLabels,
-		Name:        "http_response_count_total",
-		Help:        "Amount of processed HTTP requests",
-	}, labels)
+	/*
+		m.countTotal = prometheus.NewCounterVec(prometheus.CounterOpts{
+			Namespace:   cfg.NamespacePrefix,
+			ConstLabels: cfg.NamespaceLabels,
+			Name:        "http_response_count_total",
+			Help:        "Amount of processed HTTP requests",
+		}, labels)
+	*/
 
 	m.bytesTotal = prometheus.NewCounterVec(prometheus.CounterOpts{
 		Namespace:   cfg.NamespacePrefix,
 		ConstLabels: cfg.NamespaceLabels,
-		Name:        "http_response_size_bytes",
-		Help:        "Total amount of transferred bytes",
+		Name:        "response_size_bytes",
+		Help:        "counts the size of each http response",
 	}, labels)
 
-	m.upstreamSeconds = prometheus.NewSummaryVec(prometheus.SummaryOpts{
+	/*m.upstreamSeconds = prometheus.NewSummaryVec(prometheus.SummaryOpts{
 		Namespace:   cfg.NamespacePrefix,
 		ConstLabels: cfg.NamespaceLabels,
 		Name:        "http_upstream_time_seconds",
@@ -135,6 +137,7 @@ func (m *Metrics) Init(cfg *config.NamespaceConfig) {
 		Help:        "Time needed by NGINX to handle requests",
 		Objectives:  map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.99: 0.001},
 	}, labels)
+	*/
 
 	m.responseSecondsHist = prometheus.NewHistogramVec(prometheus.HistogramOpts{
 		Namespace:   cfg.NamespacePrefix,
@@ -361,19 +364,20 @@ func processSource(nsCfg config.NamespaceConfig, t tail.Follower, parser *gonx.P
 			}
 		}
 
-		metrics.countTotal.WithLabelValues(labelValues...).Inc()
+		//metrics.countTotal.WithLabelValues(labelValues...).Inc()
 
 		if bytes, ok := floatFromFields(fields, "body_bytes_sent"); ok {
 			metrics.bytesTotal.WithLabelValues(labelValues...).Add(bytes)
 		}
 
-		if upstreamTime, ok := floatFromFields(fields, "upstream_response_time"); ok {
-			metrics.upstreamSeconds.WithLabelValues(labelValues...).Observe(upstreamTime)
-			metrics.upstreamSecondsHist.WithLabelValues(labelValues...).Observe(upstreamTime)
-		}
+		/*
+			if upstreamTime, ok := floatFromFields(fields, "upstream_response_time"); ok {
+				metrics.upstreamSeconds.WithLabelValues(labelValues...).Observe(upstreamTime)
+				metrics.upstreamSecondsHist.WithLabelValues(labelValues...).Observe(upstreamTime)
+			}*/
 
 		if responseTime, ok := floatFromFields(fields, "request_time"); ok {
-			metrics.responseSeconds.WithLabelValues(labelValues...).Observe(responseTime)
+			//metrics.responseSeconds.WithLabelValues(labelValues...).Observe(responseTime)
 			metrics.responseSecondsHist.WithLabelValues(labelValues...).Observe(responseTime)
 		}
 	}
