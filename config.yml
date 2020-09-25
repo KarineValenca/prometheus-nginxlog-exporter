@@ -1,0 +1,14 @@
+enable_experimental: true
+namespaces:
+  - name: app1
+    format: '$remote_addr - [$time_local] "$request" $status $body_bytes_sent'
+    source:
+      files:
+        - /mnt/nginxlogs/access.log
+    relabel_configs:
+      - target_label: request_uri
+        from: request
+        split: 2
+        matches:
+          - regexp: '^(.*)$'
+            replacement: '$1'
