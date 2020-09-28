@@ -40,4 +40,11 @@ var DefaultRelabelings = []*Relabeling{
 			Split:       2,
 		},
 	},
+	{
+		config.RelabelConfig{
+			TargetLabel: "type",
+			SourceValue: "request",
+			Split:       3,
+		},
+	},
 }
