@@ -31,4 +31,11 @@ var DefaultRelabelings = []*Relabeling{
 			SourceValue: "status",
 		},
 	},
+	{
+		config.RelabelConfig{
+			TargetLabel: "addrs",
+			SourceValue: "requests",
+			Split:       2,
+		},
+	},
 }
