@@ -6,10 +6,3 @@ namespaces:
     source:
       files:
         - /mnt/nginxlogs/access.log
-    relabel_configs:
-      - target_label: addr
-        from: request
-        split: 2
-        matches:
-          - regexp: '^(.*)$'
-            replacement: '$1'
