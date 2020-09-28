@@ -28,10 +28,10 @@ import (
 
 	"github.com/martin-helmich/prometheus-nginxlog-exporter/syslog"
 
+	"github.com/KarineValenca/prometheus-nginxlog-exporter/relabeling"
 	"github.com/martin-helmich/prometheus-nginxlog-exporter/config"
 	"github.com/martin-helmich/prometheus-nginxlog-exporter/discovery"
 	"github.com/martin-helmich/prometheus-nginxlog-exporter/prof"
-	"github.com/martin-helmich/prometheus-nginxlog-exporter/relabeling"
 	"github.com/martin-helmich/prometheus-nginxlog-exporter/tail"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -148,10 +148,10 @@ func (m *Metrics) Init(cfg *config.NamespaceConfig) {
 	}, labels)
 
 	m.parseErrorsTotal = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace:   cfg.NamespacePrefix,
+		//Namespace:   cfg.NamespacePrefix,
 		ConstLabels: cfg.NamespaceLabels,
 		Name:        "parse_errors_total",
-		Help:        "Total number of log file lines that could not be parsed",
+		Help:        "total number of log file lines that could not be parsed",
 	})
 }
 
