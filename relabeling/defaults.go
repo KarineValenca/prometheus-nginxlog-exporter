@@ -33,7 +33,7 @@ var DefaultRelabelings = []*Relabeling{
 	},
 	{
 		config.RelabelConfig{
-			TargetLabel: "addrs",
+			TargetLabel: "addr",
 			SourceValue: "requests",
 			Split:       2,
 		},
