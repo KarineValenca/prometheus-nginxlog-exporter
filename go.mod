@@ -1,4 +1,7 @@
+//module github.com/martin-helmich/prometheus-nginxlog-exporter
 module github.com/martin-helmich/prometheus-nginxlog-exporter
+
+replace github.com/martin-helmich/prometheus-nginxlog-exporter => github.com/KarineValenca/prometheus-nginxlog-exporter
 
 require (
 	github.com/alecthomas/units v0.0.0-20190924025748-f65c72e2690d // indirect
@@ -16,6 +19,7 @@ require (
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/kr/pty v1.1.8 // indirect
+	github.com/martin-helmich/prometheus-nginxlog-exporter v1.7.1
 	github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.7.1
