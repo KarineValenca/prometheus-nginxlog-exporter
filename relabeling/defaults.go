@@ -78,4 +78,10 @@ var DefaultRelabelings = []*Relabeling{
 			},
 		},
 	},
+	{
+		config.RelabelConfig{
+			TargetLabel: "errorMessage",
+			SourceValue: "",
+		},
+	},
 }
