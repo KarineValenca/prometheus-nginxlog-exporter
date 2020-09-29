@@ -32,7 +32,7 @@ func (c *RelabelConfig) Compile() error {
 	c.WhitelistExists = len(c.Whitelist) > 0
 
 	for i := range c.Whitelist {
-		c.WhitelistMap[c.Whitelist[i]] = nil
+		c.WhitelistMap[c.Whitelist[i]] = c.Whitelist[i]
 	}
 
 	for i := range c.Matches {
