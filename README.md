@@ -38,9 +38,9 @@ log_format upstream_time '$remote_addr - [$time_local] '
 
 Check your NGINX's access.log to see if the request time is being recorded correctly.
 
-After that, create a `config.yml` file to hold all the configurations for the NGINX monitor. There is one example of a simple configuration (adjust source files to your own needs)::
+After that, create a `config.yml` file to hold all the configuration needed for the NGINX monitor. There is one example of a simple configuration (adjust source files to your own needs):
 
-```
+```yml
 enable_experimental: true
 namespaces:
   - name: app1
@@ -69,7 +69,7 @@ docker run \
 
 There is an example of a docker-compose file with a nginx and a nginx-monitor:
 
-```
+```yml
 version: '3.8'
 services:
   web:
