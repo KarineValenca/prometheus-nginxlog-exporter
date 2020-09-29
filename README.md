@@ -97,11 +97,11 @@ To Do
 
 ## Big Brother
 
-This is part of a more large application called Big Brother.
+This is part of a more large application called [Big Brother](https://github.com/labbsr0x/big-brother).
 
 ## Credits
 
-- [NGINX-to-Prometheus log file exporter](https://github.com/martin-helmich/prometheus-nginxlog-exporter)
+- [NGINX-to-Prometheus log file exporter](https://github.com/martin-helmich/prometheus-nginxlog-exporter), Apache-2.0 License
 - [tail](https://github.com/hpcloud/tail), MIT license
 - [gonx](https://github.com/satyrius/gonx), MIT license
 - [Prometheus Go client library](https://github.com/prometheus/client_golang), Apache License
