@@ -1,6 +1,6 @@
 module github.com/martin-helmich/prometheus-nginxlog-exporter
 
-replace github.com/martin-helmich/prometheus-nginxlog-exporter => /Users/karine/github.com/KarineValenca/prometheus-nginxlog-exporter
+replace github.com/martin-helmich/prometheus-nginxlog-exporter => github.com/labbsr0x/nginx-monitor master
 
 require (
 	github.com/alecthomas/units v0.0.0-20190924025748-f65c72e2690d // indirect
