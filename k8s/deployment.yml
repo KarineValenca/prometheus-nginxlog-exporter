@@ -15,7 +15,7 @@ spec:
           subPath: nginx.conf
           readOnly: true
     - name: exporter
-      image: valencakarine/nginx-exporter
+      image: labbsr0x/nginx-exporter
       args: ['-config-file', '/etc/prometheus-nginxlog-exporter/config.hcl']
       volumeMounts:
         - name: exporter-config
