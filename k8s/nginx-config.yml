@@ -24,7 +24,8 @@ data:
                             '"$request" $status $body_bytes_sent rt=$request_time';
                             
 
-        access_log syslog:server=[127.0.0.1]:5531,facility=udp upstream_time;
+        access_log syslog:server=0.0.0.0:8514,facility=local7,tag=nginx upstream_time;
+
 
         sendfile        on;
         #tcp_nopush     on;

@@ -10,7 +10,7 @@ spec:
     - name: web
       image: nginx
       ports:
-        - containerPort: 8080
+        - containerPort: 80
       volumeMounts:
         - name: nginx-config
           mountPath: /etc/nginx/nginx.conf

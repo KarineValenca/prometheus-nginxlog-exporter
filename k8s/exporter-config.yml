@@ -11,8 +11,9 @@ data:
     namespace "app1" {
       source = {
         syslog {
-          listen_address = "udp://127.0.0.1:5531"
+          listen_address = "udp://0.0.0.0:8514"
           format = "rfc3164"
+          tags = ["nginx"]
         }
       }
 
