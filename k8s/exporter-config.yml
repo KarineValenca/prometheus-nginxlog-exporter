@@ -19,7 +19,4 @@ data:
 
       format = "$remote_addr - [$time_local] \"$request\" $status $body_bytes_sent rt=$request_time"
 
-      labels {
-        app = "default"
-      }
     }
