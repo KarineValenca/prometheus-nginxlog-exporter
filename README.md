@@ -211,7 +211,3 @@ This is part of a more large application called [Big Brother](https://github.com
 - [gonx](https://github.com/satyrius/gonx), MIT license
 - [Prometheus Go client library](https://github.com/prometheus/client_golang), Apache License
 - [HashiCorp configuration language](https://github.com/hashicorp/hcl), Mozilla Public License
-
-```
-
-```
