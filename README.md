@@ -80,7 +80,7 @@ services:
     ports:
       - '8080:80'
   nginx-exporter:
-    image: valencakarine/nginx-monitor
+    image: labbsr0x/nginx-monitor
     depends_on:
       - web
     ports:
@@ -115,7 +115,7 @@ spec:
           subPath: nginx.conf
           readOnly: true
     - name: exporter
-      image: valencakarine/nginx-exporter
+      image: labbsr0x/nginx-exporter
       args: ['-config-file', '/etc/prometheus-nginxlog-exporter/config.hcl']
       volumeMounts:
         - name: exporter-config
