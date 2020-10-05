@@ -80,7 +80,7 @@ services:
     ports:
       - '8080:80'
   nginx-exporter:
-    image: valencakarine/nginx-monitor
+    image: labbsr0x/nginx-monitor
     depends_on:
       - web
     ports:
@@ -93,7 +93,112 @@ services:
 
 ### Kubernetes
 
-To Do
+In Kubernetes, you can run the exporter as a sidecar along your "main" container within the same pod.
+
+The following example shows you how to deploy the exporter as a sidecar, accepting logs from the main container via syslog:
+
+```yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-example
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '4040'
+spec:
+  containers:
+    - name: web
+      image: nginx
+      volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
+    - name: exporter
+      image: labbsr0x/nginx-exporter
+      args: ['-config-file', '/etc/prometheus-nginxlog-exporter/config.hcl']
+      volumeMounts:
+        - name: exporter-config
+          mountPath: /etc/prometheus-nginxlog-exporter
+  volumes:
+    - name: exporter-config
+      configMap:
+        name: exporter-config
+    - name: nginx-config
+      configMap:
+        name: nginx-config
+```
+
+In this example, the configuration file is passed via the exporter-config ConfigMap. This might look like follows:
+
+```yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: exporter-config
+data:
+  config.hcl: |
+    listen {
+      port = 4040
+    }
+
+    namespace "app1" {
+      source = {
+        syslog {
+          listen_address = "udp://0.0.0.0:8514"
+          format = "rfc3164"
+          tags = ["nginx"]
+        }
+      }
+
+      format = "$remote_addr - [$time_local] \"$request\" $status $body_bytes_sent rt=$request_time"
+
+    }
+```
+
+The nginx configuration might look like follows:
+
+```yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+name: nginx-config
+data:
+nginx.conf: |
+user nginx;
+worker_processes 1;
+
+    error_log  /var/log/nginx/error.log warn;
+    pid        /var/run/nginx.pid;
+
+
+    events {
+        worker_connections  1024;
+    }
+
+
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+
+        log_format upstream_time '$remote_addr - [$time_local] '
+                            '"$request" $status $body_bytes_sent rt=$request_time';
+
+
+        access_log syslog:server=0.0.0.0:8514,facility=local7,tag=nginx upstream_time;
+
+
+        sendfile        on;
+        #tcp_nopush     on;
+
+        keepalive_timeout  65;
+
+        #gzip  on;
+
+        include /etc/nginx/conf.d/*.conf;
+    }
+
+```
 
 ## Big Brother
 

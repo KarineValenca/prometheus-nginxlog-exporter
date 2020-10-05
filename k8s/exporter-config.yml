@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: exporter-config
+data:
+  config.hcl: |
+    listen {
+      port = 4040
+    }
+
+    namespace "app1" {
+      source = {
+        syslog {
+          listen_address = "udp://0.0.0.0:8514"
+          format = "rfc3164"
+          tags = ["nginx"]
+        }
+      }
+
+      format = "$remote_addr - [$time_local] \"$request\" $status $body_bytes_sent rt=$request_time"
+
+    }
